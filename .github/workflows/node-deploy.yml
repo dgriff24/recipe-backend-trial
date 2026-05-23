@@ -53,7 +53,7 @@ jobs:
           debug: false
           command: |
             cd nodeapps/recipe-backend
-            npm install
+            npm ci --prefer-offline
             sudo systemctl stop recipe-backend
             sudo cp recipe-backend.service /lib/systemd/system/recipe-backend.service
             sudo systemctl daemon-reload
