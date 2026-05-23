@@ -61,23 +61,23 @@ authenticate = async (req, res, require = true) => {
         .catch((error) => {
           console.log(error);
         });
-      if (session != null) {
-        if (session.expirationDate >= Date.now()) {
-          return {
-            type: "token",
-            userId: session.userId,
-            sessionId: session.id,
-          };
-        } else {
-          return res.status(401).send({
-            message: "Session has expired.",
-          });
-        }
-      } else {
+      if (session == null) {
         return res.status(401).send({
           message: "Invalid session",
         });
       }
+
+      if (session.expirationDate < Date.now()) {
+        return res.status(401).send({
+          message: "Session has expired.",
+        });
+      }
+
+      return {
+        type: "token",
+        userId: session.userId,
+        sessionId: session.id,
+      };
     }
   }
   if (require) {
