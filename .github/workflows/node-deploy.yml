@@ -53,7 +53,9 @@ jobs:
           debug: false
           command: |
             cd nodeapps/recipe-backend
-            npm ci --prefer-offline
+            sudo systemctl stop mysql
+            npm ci
+            sudo systemctl start mysql
             sudo systemctl stop recipe-backend
             sudo cp recipe-backend.service /lib/systemd/system/recipe-backend.service
             sudo systemctl daemon-reload
